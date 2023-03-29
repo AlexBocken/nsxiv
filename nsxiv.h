@@ -178,11 +178,13 @@ struct img {
 	win_t *win;
 	float x;
 	float y;
+	float alpha;
 
 	Imlib_Color_Modifier cmod;
 	int gamma;
 	int brightness;
 	int contrast;
+	bool invert;
 
 	scalemode_t scalemode;
 	float zoom;
@@ -218,6 +220,7 @@ void img_update_color_modifiers(img_t*);
 bool img_change_color_modifier(img_t*, int, int*);
 bool img_frame_navigate(img_t*, int);
 bool img_frame_animate(img_t*);
+void render_core(win_t*, int, int, int, int, int, int, int, int, bool);
 Imlib_Image img_open(const fileinfo_t*);
 #if HAVE_LIBEXIF
 void exif_auto_orientate(const fileinfo_t*);
@@ -382,9 +385,11 @@ struct win {
 	Window xwin;
 	win_env_t env;
 
-	XColor win_bg;
+	XColor win_bg; /* pre-multiplied alpha */
+	XColor win_bg_postmul; /* post-multiplied alpha */
 	XColor win_fg;
 	XColor mrk_fg;
+	unsigned int win_alpha;
 #if HAVE_LIBFONTS
 	XftColor bar_bg;
 	XftColor bar_fg;
@@ -455,3 +460,4 @@ extern int prefix;
 extern bool title_dirty;
 
 #endif /* NSXIV_H */
+

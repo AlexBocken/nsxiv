@@ -13,7 +13,7 @@ static const char *DEFAULT_MARK_COLOR = NULL;  /* NULL means it will default to 
 #if HAVE_LIBFONTS
 static const char *DEFAULT_BAR_BG     = NULL;  /* NULL means it will default to window background */
 static const char *DEFAULT_BAR_FG     = NULL;  /* NULL means it will default to window foreground */
-static const char *DEFAULT_FONT       = "monospace-8";
+static const char *DEFAULT_FONT       = "monospace-12";
 
 /* if true, statusbar appears on top of the window */
 static const bool TOP_STATUSBAR = false;
@@ -82,12 +82,18 @@ static const int THUMB_SIZE = 3;
 #endif
 #ifdef INCLUDE_MAPPINGS_CONFIG
 
+char nsxiv_xid[64]; /* will be set to nsxiv's xid when dmenu_search is invoked */
+const char *const dmenu_search_cmd[] = {
+	"dmenu", "-l", "16", "-i", NULL
+};
+const char *const dmenu_cd_cmd[] = {
+	"nsxiv-dirchanger", NULL
+};
 /* these modifiers will be used when processing keybindings */
 static const unsigned int USED_MODMASK = ShiftMask | ControlMask | Mod1Mask;
 
 /* abort the keyhandler */
 static const KeySym KEYHANDLER_ABORT = XK_Escape;
-
 /* keyboard mappings for image and thumbnail mode: */
 static const keymap_t keys[] = {
 	/* modifiers    key               function              argument */
@@ -100,6 +106,8 @@ static const keymap_t keys[] = {
 	{ 0,            XK_G,             g_n_or_last,          None },
 	{ 0,            XK_r,             g_reload_image,       None },
 	{ 0,            XK_D,             g_remove_image,       None },
+	{ 0,            XK_slash,         g_dmenu_search,       None },
+	{ ControlMask,  XK_d,	          g_dmenu_cd,     	None},
 	{ ControlMask,  XK_h,             g_scroll_screen,      DIR_LEFT },
 	{ ControlMask,  XK_Left,          g_scroll_screen,      DIR_LEFT },
 	{ ControlMask,  XK_j,             g_scroll_screen,      DIR_DOWN },
@@ -125,6 +133,7 @@ static const keymap_t keys[] = {
 	{ ControlMask,  XK_bracketleft,   g_change_brightness,  -1 },
 	{ 0,            XK_parenleft,     g_change_contrast,    -1 },
 	{ 0,            XK_parenright,    g_change_contrast,    +1 },
+	{ 0,            XK_i,             g_toggle_invert,      None },
 
 	{ 0,            XK_h,             t_move_sel,           DIR_LEFT },
 	{ 0,            XK_Left,          t_move_sel,           DIR_LEFT },
@@ -211,3 +220,4 @@ static const cursor_t imgcursor[3] = {
 };
 
 #endif
+

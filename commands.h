@@ -6,6 +6,7 @@
 bool cg_change_gamma(arg_t);
 bool cg_change_brightness(arg_t);
 bool cg_change_contrast(arg_t);
+bool cg_toggle_invert(arg_t);
 bool cg_first(arg_t);
 bool cg_mark_range(arg_t);
 bool cg_n_or_last(arg_t);
@@ -22,6 +23,8 @@ bool cg_toggle_fullscreen(arg_t);
 bool cg_toggle_image_mark(arg_t);
 bool cg_unmark_all(arg_t);
 bool cg_zoom(arg_t);
+bool cg_dmenu_search(arg_t);
+bool cg_dmenu_cd(arg_t);
 /* image mode */
 bool ci_alternate(arg_t);
 bool ci_cursor_navigate(arg_t);
@@ -51,6 +54,7 @@ bool ct_select(arg_t);
 #define g_change_gamma { cg_change_gamma, MODE_ALL }
 #define g_change_brightness { cg_change_brightness, MODE_ALL }
 #define g_change_contrast { cg_change_contrast, MODE_ALL }
+#define g_toggle_invert { cg_toggle_invert, MODE_ALL }
 #define g_first { cg_first, MODE_ALL }
 #define g_mark_range { cg_mark_range, MODE_ALL }
 #define g_n_or_last { cg_n_or_last, MODE_ALL }
@@ -67,6 +71,8 @@ bool ct_select(arg_t);
 #define g_toggle_image_mark { cg_toggle_image_mark, MODE_ALL }
 #define g_unmark_all { cg_unmark_all, MODE_ALL }
 #define g_zoom { cg_zoom, MODE_ALL }
+#define g_dmenu_search { cg_dmenu_search, MODE_ALL }
+#define g_dmenu_cd { cg_dmenu_cd, MODE_ALL }
 
 /* image mode */
 #define i_alternate { ci_alternate, MODE_IMAGE }
@@ -95,3 +101,4 @@ bool ct_select(arg_t);
 
 #endif /* _MAPPINGS_CONFIG */
 #endif /* COMMANDS_H */
+

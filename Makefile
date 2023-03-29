@@ -98,6 +98,8 @@ install: all
 	mkdir -p $(DESTDIR)$(EGPREFIX)
 	cp etc/examples/* $(DESTDIR)$(EGPREFIX)
 	chmod 755 $(DESTDIR)$(EGPREFIX)/*
+	@echo "INSTALL bin/nsxiv-dirchanger"
+	cp nsxiv-dirchanger $(DESTDIR)$(PREFIX)/bin/
 
 uninstall: uninstall-icon
 	@echo "REMOVE bin/nsxiv"
@@ -108,4 +110,5 @@ uninstall: uninstall-icon
 	rm -f $(DESTDIR)$(PREFIX)/share/applications/nsxiv.desktop
 	@echo "REMOVE share/nsxiv/"
 	rm -rf $(DESTDIR)$(EGPREFIX)
-
+	@echo "REMOVE bin/nsxiv-dirchanger"
+	rm -rf $(DESTDIR)$(PREFIX)/bin/nsxiv-dirchanger

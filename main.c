@@ -150,7 +150,6 @@ static void check_add_file(const char *filename, bool given)
 		files[fileidx].flags |= FF_WARN;
 	fileidx++;
 }
-
 static void add_entry(const char *entry_name)
 {
 	int start;
@@ -178,6 +177,15 @@ static void add_entry(const char *entry_name)
 		if (fileidx - start > 1)
 			qsort(files + start, fileidx - start, sizeof(*files), fncmp);
 	}
+}
+
+void add_entry_test(){
+	char * filename = "/home/alex/dls/pix/Wien_-_Michaelerkirche,_Hochaltar.JPG";
+	fprintf(stdout, "Trying to add file %s to entries\n", filename);
+	add_entry(filename);
+	filecnt = fileidx;
+	fileidx = options->startnum < filecnt ? options->startnum : 0;
+	cg_reload_image(MODE_ALL);
 }
 
 void remove_file(int n, bool manual)
@@ -953,3 +961,37 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
+bool cg_dmenu_cd(arg_t _){
+	extern char nsxiv_xid[64];
+	extern const char *const dmenu_cd_cmd[];
+
+	char output[4096];
+	int i, rfd, wfd, goto_img = -1;
+	ssize_t n;
+
+	snprintf(nsxiv_xid, sizeof nsxiv_xid, "0x%.8lX", win.xwin);
+	if (spawn(&rfd, &wfd, (char **)dmenu_cd_cmd) < 0)
+		return false;
+	for (i = 0; i < filecnt; ++i) {
+		dprintf(wfd, "%s\n", files[i].name);
+	}
+	close(wfd);
+	if ((n = read(rfd, output, sizeof output - 1)) > 0) {
+		char *e = memchr(output, '\n', n);
+		if (e != NULL)
+			*e = '\0';
+		else
+			output[n] = '\0';
+
+		fprintf(stdout, "Trying to add file %s to entries\n", output);
+		add_entry(output);
+		filecnt = fileidx;
+		fileidx = options->startnum < filecnt ? options->startnum : 0;
+		cg_reload_image(MODE_ALL);
+	}
+	close(rfd);
+
+	return True;
+}
+

@@ -34,6 +34,12 @@ Features
 * Displaying image information in status bar via `image-info` & `thumb-info`
 * Customizable window title via `win-title`
 
+Personal Changes
+-----------
+
+* alpha patch applied
+* can change directory with `Ctrl+D` and a dmenu prompt
+* some minor key rebinds
 
 Screenshots
 -----------
